@@ -97,7 +97,7 @@ mostrarBebidas(bebidas);*/
 // Simulador de compra para Pekitas Ecotienda
 
 // Definición de productos y precios
-let productos = [
+/*let productos = [
     { nombre: "Vodka Absolut", precio: 45000 },
     { nombre: "Gin Tanqueray", precio: 27885 },
     { nombre: "Whisky Jack Daniels", precio: 55000 },
@@ -241,4 +241,43 @@ function realizarCompra() {
 }
 
 // Inicio de compra
-realizarCompra();
+realizarCompra();*/
+
+const productos = [
+	{ nombre: 'Lata Cerveza Quilmes x1', precio: 1100, imagen: 'preEntrega3Gonzalez/Imagenes/latacervezaquilmes.jpg' },
+	{ nombre: 'Vino Toro', precio: 900, imagen: 'preEntrega3Gonzalez/Imagenes/vinotoro.jpg' },
+    { nombre: 'Manaos Pomelo Blanco 3l', precio: 1100, imagen: 'preEntrega3Gonzalez/Imagenes/manaospomelo.jpeg' },
+	// Agrega más productos aquí
+];
+
+const carrito = [];
+
+document.querySelectorAll('.agregar').forEach((boton) => {
+  boton.addEventListener('click', (e) => {
+    const producto = productos.find((p) => p.nombre === e.target.closest('.producto').querySelector('h2').textContent);
+    carrito.push(producto);
+    actualizarCarrito();
+  });
+});
+
+function actualizarCarrito() {
+  const listaCarrito = document.getElementById('lista-carrito');
+  listaCarrito.innerHTML = '';
+  carrito.forEach(({ nombre, precio }) => {
+    const elemento = document.createElement('li');
+    elemento.textContent = `${nombre} - $${precio}`;
+    listaCarrito.appendChild(elemento);
+  });
+  const total = carrito.reduce((acc, { precio }) => acc + precio, 0);
+  const descuento = total > 5000 ? ' (10% de descuento)' : '';
+  document.getElementById('total').textContent = `Total: $${total}${descuento}`;
+}
+
+document.getElementById('comprar').addEventListener('click', () => {
+  alert('Gracias por su compra!');
+  carrito.length = 0;
+  actualizarCarrito();
+});
+
+
+
